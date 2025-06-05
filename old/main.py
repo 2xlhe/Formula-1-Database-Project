@@ -5,8 +5,6 @@ import getpass
 import os
 #deixar mais modularizado
 
-def limpa_tela():
-    os.system('clear')
 
 def pula_linha():
     print('________________________________')
@@ -52,11 +50,6 @@ def login(user_input, senha_input):
         print("Usuário não registrado! Tente novamente.\n\n\n\n\n\n")
         return None 
 
-def exibe_mensagens():
-    print("___*** Projeto Final de Laboratório de Bases de Dados ***___\n\n")
-    print("____________Sistema de Gerenciamento da Formula1____________\n\n")
-    print("Login")
-    print("--------------")
 
 def cadastra_escuderia():
     cursor.execute("SELECT COALESCE(MAX(constructorId), 0) + 1 FROM CONSTRUCTORS")
@@ -103,7 +96,7 @@ def tela_admin(nome_usuario):
 
     #Lista de todas as corridas no ano, total de voltas e tempo
     print("__________Resumo das corridas:__________")
-    cursor.execute("SELECT * FROM dashboard_admin_corridas(%s)", (ano_pesquisa,))
+    cursor.execute("SELECT * FROM dashboard_admin_corridas(%s)",        (ano_pesquisa,))
     for nome, voltas, tempo in cursor.fetchall():
         print(f"{nome}: {voltas} voltas, tempo total: {tempo}")
     pula_linha()
@@ -215,7 +208,7 @@ def menu():
                 case 'Escuderia':
                     tela_escuderia(login_input)
                 case 'Piloto':
-                    tela_piloto(login_input)
+                                tela_piloto(login_input)
 
 
 
