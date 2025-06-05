@@ -199,7 +199,6 @@ def relatorio2():
         opt = int(input("Digite 0 para sair:"))
     tela.limpa_tela()
 
-
 def relatorio3():
     conn, cursor = conection.conecta_banco()
 

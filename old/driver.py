@@ -24,24 +24,6 @@ def tela_piloto(nome_usuario):
         print("ERRO: Piloto não encontrado")
 
 
-    while(True):
-        print("Menu de Opções do Piloto")
-        print("Selecione uma opção.")
-        print("1: Visualizar Dashboard")
-        print("2: Visualizar Relatórios")
-        print("3: Sair")
-        opt = int(input().rstrip())
-
-        match opt:
-            case 1:
-                dashboard_piloto(driverId)
-            case 2:
-                relatorios_piloto(driverId)
-            case 3:
-                tela.limpa_tela()
-                break
-
-
     cursor.close()
     conn.close()
 
