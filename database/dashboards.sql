@@ -277,7 +277,7 @@ BEGIN
         C.name ILIKE cidade
         AND earth_distance(
             ll_to_earth(C.lat, C.long),
-            ll_to_earth(A.latdeg, A.longdeg)) <= 10000;
+            ll_to_earth(A.latdeg, A.longdeg)) <= 100000;
 END;
 $$ LANGUAGE plpgsql;
 
