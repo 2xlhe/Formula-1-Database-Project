@@ -1,12 +1,31 @@
 from utils import read_cli
 from display import *
 from operations import connect_db, Login
+import yaml
+import argparse
+
+
+def parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--config", type=str, required=True, help="Path to YAML file with DB config"
+    )
+    args, _ = parser.parse_known_args()
+    with open(args.config, "r") as f:
+        config = yaml.safe_load(f)
+    return config
+
+
+config = parser()
+
 
 if __name__ == "__main__":
-    conn, curs = connect_db()
+    db = connect_db(config)
 
     ScreenUtils.welcome()
     ScreenUtils.clear()
+
+    curs, conn = db
 
     # User Login
     login = Login(cursor=curs, conn=conn)
