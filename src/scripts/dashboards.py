@@ -1,5 +1,5 @@
 from psycopg2.extensions import cursor
-from .utils import ScreenUtils
+from utils import ScreenUtils
 
 
 class AdminDashboard:

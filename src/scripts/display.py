@@ -2,9 +2,9 @@ import os
 from psycopg2.extensions import cursor, connection
 from typing import Optional
 from utils import read_cli, print_divisor, ScreenUtils
-from .relatories import AdminSummary, ScuderiaSummary, PilotSummary
-from .dashboards import AdminDashboard, ScuderiaDashboard, PilotDashboard
-from .operations import Register, Search
+from relatories import AdminSummary, ScuderiaSummary, PilotSummary
+from dashboards import AdminDashboard, ScuderiaDashboard, PilotDashboard
+from operations import Register, Search
 
 
 class AdminScreen:

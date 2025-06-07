@@ -1,5 +1,5 @@
-from .utils import read_cli, print_divisor
-from .display import ScreenUtils
+from utils import read_cli, print_divisor
+from display import ScreenUtils
 from psycopg2.extensions import cursor
 
 
