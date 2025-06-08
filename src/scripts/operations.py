@@ -3,30 +3,24 @@ from psycopg2.extensions import cursor, connection
 import hashlib
 from typing import Optional, Tuple
 from utils import read_cli
-from contextlib import contextmanager
+import sys
+import argparse
 
 
-@contextmanager
-def connect_db():
-    conn = None
-    cur = None
+def connect_db(config):
     try:
         conn = connect(
-            host="localhost",
-            port="5432",
-            dbname="fia",
-            user="postgres",
-            password="postgres",
+            host=config.get("host", "localhost"),
+            port=str(config.get("port", "5432")),
+            dbname=config["dbname"],
+            user=config["user"],
+            password=config["password"],
         )
-        cur = conn.cursor()
-        yield conn, cur
     except Exception as e:
-        raise Exception(f"Erro ao conectar ao banco de dados: {e}")
-    finally:
-        if cur:
-            cur.close()
-        if conn:
-            conn.close()
+        print("Unable to connect to server")
+        raise
+
+    return conn, conn.cursor()
 
 
 class Login:
@@ -140,7 +134,7 @@ class Register:
     def pilot_file(self):
         filename = read_cli("Insira o caminho do arquivo:")
         try:
-            with open(filename, 'r') as file:
+            with open(filename, "r") as file:
                 lines = file.readlines()
         except FileNotFoundError:
             print("Arquivo não encontrado")
@@ -148,16 +142,18 @@ class Register:
 
         try:
             # Garante que não haja inconsistência com as chaves primarias de driver.
-            self.cursor.execute("""
+            self.cursor.execute(
+                """
             SELECT setval(
                 pg_get_serial_sequence('drivers', 'driverid'),
                 COALESCE((SELECT MAX(driverid) FROM drivers), 0)
             )
-            """)
+            """
+            )
 
             pilots_to_insert = []
             for line in lines:
-                data = line.strip().split(',')
+                data = line.strip().split(",")
 
                 if len(data) < 6:
                     print(f"Linha inválida ignorada: {line.strip()}")
@@ -169,26 +165,37 @@ class Register:
                 surname = data[3]
                 dateOfBirth = data[4]
                 nationality = data[5]
-                number = data[6] if len(data) > 6 and data[6] != '' else None
-                url = data[7] if len(data) > 7 and data[7] != '' else None
+                number = data[6] if len(data) > 6 and data[6] != "" else None
+                url = data[7] if len(data) > 7 and data[7] != "" else None
 
                 self.cursor.execute(
                     "SELECT 1 FROM DRIVERS WHERE FORENAME=%s AND surname=%s",
-                    (forename, surname)
+                    (forename, surname),
                 )
                 if self.cursor.fetchone():
-                    print(f"O piloto {forename} {surname} já foi registrado. Inserção abortada.")
+                    print(
+                        f"O piloto {forename} {surname} já foi registrado. Inserção abortada."
+                    )
                     continue
 
                 pilots_to_insert.append(
-                    (driverref, number, code, forename, surname, dateOfBirth, nationality, url)
+                    (
+                        driverref,
+                        number,
+                        code,
+                        forename,
+                        surname,
+                        dateOfBirth,
+                        nationality,
+                        url,
+                    )
                 )
 
             if pilots_to_insert:
                 self.cursor.executemany(
                     """INSERT INTO DRIVERS (driverref, number, code, forename, surname,
                     dateOfBirth, nationality, url) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
-                    pilots_to_insert
+                    pilots_to_insert,
                 )
                 self.conn.commit()
                 print("Piloto(s) inseridos com sucesso.")
