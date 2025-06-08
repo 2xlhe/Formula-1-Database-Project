@@ -3,6 +3,12 @@
 This project retrieves a Formula 1 dataset (http://ergast.com/mrd/).
 
 # How to run
+```
+make run
+```
+
+# OR
+
 1. Copy the repository into the local machine
 
 2. Create a postgres instance

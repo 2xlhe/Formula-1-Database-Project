@@ -8,12 +8,25 @@ import argparse
 def parser():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--config", type=str, required=True, help="Path to YAML file with DB config"
+        "--config", type=str, required=False, help="Path to YAML file with DB config"
     )
     args, _ = parser.parse_known_args()
-    with open(args.config, "r") as f:
-        config = yaml.safe_load(f)
-    return config
+    default_config = {
+        "host": "localhost",
+        "port": "5432",
+        "dbname": "fia",
+        "user": "postgres",
+        "password": "postgres"
+    }
+    if args.config:
+        with open(args.config, "r") as f:
+            config = yaml.safe_load(f)
+        # Fill missing fields with defaults
+        for key, value in default_config.items():
+            config.setdefault(key, value)
+        return config
+    else:
+        return default_config
 
 
 config = parser()
