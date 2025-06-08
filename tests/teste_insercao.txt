@@ -1,0 +1,7 @@
+speedy01,SPD,Flash,Runner,1992-06-14,American,01,https://flashrunner.com
+rocket99,RKT,Buzz,Lightyear,1980-09-01,American,99
+turbo22,TRB,Max,Velocity,1995-03-25,Canadian,22,https://maxvelocity.ca
+shadow05,SHD,Luna,Shadow,1988-12-12,British,05
+storm88,STR,Blitz,Storm,1993-08-20,German,88
+phantom00,PHM,Ghost,Phantom,1990-01-01,Australian
+vortex12,VRX,Typhoon,Vortex,1994-07-09,Brazilian,12

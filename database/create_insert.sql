@@ -8,10 +8,10 @@ CREATE TABLE USERS (
     idOriginal INTEGER NOT NULL
 );
 
---Insere o administrador
+--Insere o administrador na base
 INSERT INTO USERS VALUES (0, 'admin', encode(digest('admin', 'sha256'), 'hex'), 'Administrador', 1);
 
---Insere os pilotos
+--Insere os pilotos da tabela DRIVERS
 INSERT INTO USERS (login, password, tipo, idOriginal)
 SELECT
     CONCAT(driverref, ' d') AS login,
@@ -21,7 +21,7 @@ SELECT
 FROM 
     DRIVERS;
 
---Insere as escuderias
+--Insere as escuderias da tabela CONSTRUCTORS
 INSERT INTO USERS (login, password, tipo, idOriginal)
 SELECT 
     CONCAT(constructorref, ' c') AS login,
@@ -32,7 +32,7 @@ FROM
     CONSTRUCTORS;
 
 
---Cria tabela de log de usuario
+--Cria tabela de Log de Usuários
 CREATE TABLE USERS_LOG (
     logId SERIAL PRIMARY KEY,
     userId INTEGER NOT NULL,
